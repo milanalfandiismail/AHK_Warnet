@@ -157,6 +157,12 @@ Click, 956, 223 Right, 1
 Sleep, 10
 Return
 
+^+L::
+Macro20:
+Click, 1416, 74 Left, 1
+Sleep, 10
+Return
+
 #If mode_khusus
 ; === Bagian Membuat Member ===
 ^F12::
@@ -274,6 +280,7 @@ jarak := 15
 
 +Enter::Click
 +Backspace::Click Right
+
 
 
 
