@@ -1,6 +1,6 @@
 #Requires AutoHotkey v2.0
 
-^+A:: {
+CreateDeleteIni(*) {
 ; Nama file INI yang akan diisi
 IniFile := "config.ini"
 
