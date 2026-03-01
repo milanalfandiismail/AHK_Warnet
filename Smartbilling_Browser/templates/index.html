@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trigger AHK Billing</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h2 {
+            color: #333;
+            margin-top: 0;
+            margin-bottom: 30px;
+            font-weight: 600;
+            text-align: center;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border 0.3s, box-shadow 0.3s;
+            background-color: #fafafa;
+            cursor: pointer;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+            background-color: #fff;
+        }
+
+        /* Style untuk select yang dinonaktifkan */
+        select:disabled {
+            background-color: #e9e9e9;
+            cursor: not-allowed;
+            opacity: 0.6;
+            border-color: #ccc;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        button:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .messages {
+            margin-top: 25px;
+        }
+
+        .message {
+            padding: 12px 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .message.success {
+            background-color: #e6f7e6;
+            color: #2e7d32;
+            border: 1px solid #a5d6a7;
+        }
+
+        .message.error {
+            background-color: #ffebee;
+            color: #c62828;
+            border: 1px solid #ef9a9a;
+        }
+
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            color: #999;
+            font-size: 0.85rem;
+        }
+
+        .info-text {
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <h2>🎮 Trigger AHK Billing</h2>
+        <form method="post">
+            <div class="form-group">
+                <label for="pc">💻 Pilih PC:</label>
+                <select name="pc" id="pc" size="8" style="width: 100%; border-radius: 10px; padding: 10px;">
+                    {% for pc in pc_list %}
+                    <option value="{{ pc }}">{{ pc }}</option>
+                    {% endfor %}
+                </select>
+                <small style="color: #666;">Gunakan scroll untuk melihat lebih banyak</small>
+            </div>
+
+            <div class="form-group">
+                <label for="waktu">⏰ Waktu (jam):</label>
+                <select name="waktu" id="waktu">
+                    <option value="tutup">Tutup Billing (tanpa waktu)</option> <!-- option khusus -->
+                    {% for w in waktu_list %}
+                    <option value="{{ w }}">{{ w }} Jam</option>
+                    {% endfor %}
+                </select>
+                <div class="info-text" id="waktuInfo" style="display: none;">✓ Pilih "Tutup Billing" jika aksi Tutup
+                    Billing</div>
+            </div>
+
+            <div class="form-group">
+                <label for="aksi">⚡ Aksi:</label>
+                <select name="aksi" id="aksi">
+                    {% for a in aksi_list %}
+                    <option value="{{ a }}">{{ a }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <button type="submit">🚀 Kirim Perintah</button>
+        </form>
+
+        <!-- Tampilkan flash messages -->
+        <div class="messages">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="message {{ 'success' if category == 'success' else 'error' }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
+
+        <div class="footer">
+            Pastikan script AHK sedang berjalan
+        </div>
+    </div>
+
+    <script>
+        // Ambil elemen
+        const aksiSelect = document.getElementById('aksi');
+        const waktuSelect = document.getElementById('waktu');
+        const waktuInfo = document.getElementById('waktuInfo');
+
+        // Fungsi untuk toggle dropdown waktu
+        function toggleWaktu() {
+            if (aksiSelect.value === 'Tutup Billing') {
+                waktuInfo.style.display = 'block';
+                waktuSelect.value = 'tutup';  // otomatis pilih option tutup
+            } else {
+                waktuInfo.style.display = 'none';
+                waktuSelect.value = '1';       // reset ke jam 1
+            }
+        }
+
+        // Jalankan fungsi saat halaman dimuat
+        window.onload = function () {
+            toggleWaktu();
+        };
+
+        // Jalankan fungsi setiap kali pilihan aksi berubah
+        aksiSelect.addEventListener('change', toggleWaktu);
+    </script>
+</body>
+
+</html>
