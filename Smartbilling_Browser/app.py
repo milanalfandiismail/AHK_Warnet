@@ -1,9 +1,11 @@
 from flask import Flask, request, render_template, redirect, url_for, session, flash
 from functools import wraps
+from datetime import timedelta
 import os
 
 app = Flask(__name__)
 app.secret_key = 'a3f5d8e9c2b1a7f4e6d9c8b2a1f4e7d8c9b2a1f4e6d9c8b2a1f4e7d8c9b2a1f4e6d'
+app.permanent_session_lifetime = timedelta(days=7)
 
 # Konfigurasi username dan password (hardcoded untuk sederhana)
 USERNAME = 'admin'
@@ -13,6 +15,10 @@ PASSWORD = 'billing123'
 PC_LIST = ['PC-1', 'PC-2', 'PC-3', 'PC-4', 'PC-5', 'PC-6', 'PC-7', 'PC-8', 'PC-9', 'PC-10', 'PC-11', 'PC-12', 'PC-13', 'PC-14', 'PC-15', 'PC-16', 'PC-17', 'PC-18', 'PC-19']
 WAKTU_LIST = ["1", "2", "3", "4", "10"]
 AKSI_LIST = ['Buka Paket', 'Tambah Waktu', 'Tutup Billing']
+
+@app.before_request
+def make_session_permanent():
+    session.permanent = True  # Aktifkan session permanent
 
 # Decorator untuk memeriksa login
 def login_required(f):
@@ -39,6 +45,7 @@ def login():
 @app.route('/logout')
 def logout():
     session.pop('logged_in', None)
+    flash('Logout berhasil!', 'success')
     return redirect(url_for('login'))
 
 @app.route('/', methods=['GET', 'POST'])

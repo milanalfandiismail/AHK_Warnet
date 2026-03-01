@@ -148,6 +148,10 @@
 
 <body>
     <div class="card">
+        <div style="text-align: right; margin-bottom: 20px;">
+            <a href="{{ url_for('logout') }}" style="color: #667eea; text-decoration: none; font-size: 0.9rem;">🚪
+                Logout</a>
+        </div>
         <h2>🎮 Trigger AHK Billing</h2>
         <form method="post">
             <div class="form-group">
@@ -215,7 +219,6 @@
                 waktuSelect.value = 'tutup';  // otomatis pilih option tutup
             } else {
                 waktuInfo.style.display = 'none';
-                waktuSelect.value = '1';       // reset ke jam 1
             }
         }
 

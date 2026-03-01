@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Trigger AHK</title>
+    <title>Login - Trigger AHK Billing</title>
     <style>
         * {
             box-sizing: border-box;
@@ -18,10 +18,10 @@
             align-items: center;
             padding: 20px;
         }
-        .login-card {
+        .card {
             background: white;
             border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
             padding: 40px;
             max-width: 400px;
             width: 100%;
@@ -32,6 +32,8 @@
             margin-bottom: 30px;
             font-weight: 600;
             text-align: center;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 15px;
         }
         .form-group {
             margin-bottom: 20px;
@@ -64,38 +66,54 @@
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: opacity 0.2s;
+            transition: transform 0.2s;
         }
         button:hover {
-            opacity: 0.9;
+            transform: translateY(-2px);
         }
-        .error {
-            margin-top: 15px;
+        .messages {
+            margin-top: 20px;
+        }
+        .message {
             padding: 10px;
-            background-color: #ffebee;
-            color: #c62828;
             border-radius: 8px;
             text-align: center;
+            margin-bottom: 10px;
+        }
+        .message.success {
+            background-color: #e6f7e6;
+            color: #2e7d32;
+        }
+        .message.error {
+            background-color: #ffebee;
+            color: #c62828;
         }
     </style>
 </head>
 <body>
-    <div class="login-card">
-        <h2>🔐 Login</h2>
+    <div class="card">
+        <h2>🔐 Login Trigger AHK</h2>
         <form method="post">
             <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
+                <label for="username">Username:</label>
+                <input type="text" name="username" id="username" required>
             </div>
             <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
+                <label for="password">Password:</label>
+                <input type="password" name="password" id="password" required>
             </div>
             <button type="submit">Masuk</button>
-            {% if error %}
-            <div class="error">{{ error }}</div>
-            {% endif %}
         </form>
+        
+        <div class="messages">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="message {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
     </div>
 </body>
 </html>
