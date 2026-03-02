@@ -3,7 +3,10 @@
 #Include cd.ahk
 
 triggerFile := "C:\trigger.txt"
+memberFile := "C:\member.txt"
 iniFile := A_ScriptDir "\koordinat.ini"
+
+CoordMode "Mouse", "Screen"
 
 ^+A:: CreateDeleteIni
 
@@ -13,143 +16,177 @@ DoClick(pc) {
     y := IniRead(iniFile, pc, "y", 0)
     if (x && y) {
         Sleep 2000
-        Click("Right", x, y)
+        Click("Right", x, y) ; < Mendapatkan koordinat dari file .ini dengan nama PC. nama PC formatnya PC-...
     } else {
         TrayTip("Koordinat " pc " tidak ditemukan")
     }
 }
 
+DoClickMember(waktu_member) {
+    x := IniRead(iniFile, waktu_member, "x", 0)
+    y := IniRead(iniFile, waktu_member, "y", 0)
+    if (x && y) {
+        Sleep 1000
+        Click("Left", x, y)
+        Sleep 1000
+        Click 984, 719 ; < Tombol Penjualan Paket di Voucher Billing
+        Sleep 500
+        Send "{Enter}"
+        Sleep 500
+        Click 1026, 758 ; < Tombol tutup di Paket di Voucher Billing
+    } else {
+        TrayTip("Waktu" waktu_member " tidak ditemukan")
+    }
+}
+
 ; ================== FUNGSI WAKTU ==================
 FungsiWaktu_1() {
-    Sleep 1000
+    Sleep 100
     Send "{Right}"
-    Sleep 1000
+    Sleep 100
     Send "{Enter}"
 }
 FungsiWaktu_2() {
-    Sleep 1000
+    Sleep 100
     Send "{Right}"
-    Sleep 1000
+    Sleep 100
     Send "{Down}"
-    Sleep 1000
+    Sleep 100
     Send "{Enter}"
 }
 FungsiWaktu_3() {
-    Sleep 1000
+    Sleep 100
     Send "{Right}"
-    Sleep 1000
+    Sleep 100
     Send "{Down}"
-    Sleep 1000
+    Sleep 100
     Send "{Down}"
-    Sleep 1000
+    Sleep 100
     Send "{Enter}"
 }
 FungsiWaktu_4() {
-    Sleep 1000
+    Sleep 100
     Send "{Right}"
-    Sleep 1000
+    Sleep 100
     Send "{Down}"
-    Sleep 1000
+    Sleep 100
     Send "{Down}"
-    Sleep 1000
+    Sleep 100
     Send "{Down}"
-    Sleep 1000
+    Sleep 100
     Send "{Enter}"
 }
 FungsiWaktu_10() {
-    Sleep 1000
+    Sleep 100
     Send "{Right}"
-    Sleep 1000
+    Sleep 100
     Send "{Down}"
-    Sleep 1000
+    Sleep 100
     Send "{Down}"
-    Sleep 1000
+    Sleep 100
     Send "{Down}"
-    Sleep 1000
+    Sleep 100
     Send "{Down}"
-    Sleep 1000
+    Sleep 100
     Send "{Enter}"
 }
 FungsiTambahkanWaktu_1Jam() {
-    Sleep 1000
+    Sleep 100
     Send "{Down}"
-    Sleep 1000
+    Sleep 100
     Send "{Enter}"
+    Sleep 100
+    Send "{Escape}"
 }
 FungsiTambahkanWaktu_2Jam() {
-    Sleep 1000
+    Sleep 100
     Send "{Down}"
-    Sleep 1000
+    Sleep 100
     Send "{Down}"
-    Sleep 1000
+    Sleep 100
     Send "{Enter}"
+    Sleep 100
+    Send "{Escape}"
 }
 
 FungsiTambahkanWaktu_3Jam() {
-    Sleep 1000
+    Sleep 100
     Send "{Down}"
-    Sleep 1000
+    Sleep 100
     Send "{Down}"
-    Sleep 1000
+    Sleep 100
     Send "{Down}"
-    Sleep 1000
+    Sleep 100
     Send "{Enter}"
+    Sleep 100
+    Send "{Escape}"
 }
 
 FungsiTambahkanWaktu_4Jam() {
-    Sleep 1000
+    Sleep 100
     Send "{Down}"
-    Sleep 1000
+    Sleep 100
     Send "{Down}"
-    Sleep 1000
+    Sleep 100
     Send "{Down}"
-    Sleep 1000
+    Sleep 100
     Send "{Down}"
-    Sleep 1000
+    Sleep 100
     Send "{Enter}"
+    Sleep 100
+    Send "{Escape}"
 }
 FungsiTambahkanWaktu_10Jam() {
-    Sleep 1000
+    Sleep 100
     Send "{Down}"
-    Sleep 1000
+    Sleep 100
     Send "{Down}"
-    Sleep 1000
+    Sleep 100
     Send "{Down}"
-    Sleep 1000
+    Sleep 100
     Send "{Down}"
-    Sleep 1000
+    Sleep 100
     Send "{Down}"
-    Sleep 1000
+    Sleep 100
     Send "{Enter}"
+    Sleep 100
+    Send "{Escape}"
 }
 
 ; ================== FUNGSI AKSI ==================
 FungsiAksi_BukaPaket() {
-    Sleep 1000
+    Sleep 100
     Send "{Down}"
-    Sleep 1000
+    Sleep 100
     Send "{Down}"
 }
 FungsiAksi_TambahkanWaktu() {
-    Sleep 1000
+    Sleep 100
     Send "{Down}"
-    Sleep 1000
+    Sleep 100
     Send "{Down}"
-    Sleep 1000
+    Sleep 100
     Send "{Down}"
-    Sleep 1000
+    Sleep 100
     Send "{Down}"
-    Sleep 1000
+    Sleep 100
     Send "{Right}"
-    Sleep 1000
+    Sleep 100
 }
 FungsiAksi_TutupBilling() {
-    TrayTip "Beta Testing"
+    Sleep 500
+    Send "{Down}"
+    Sleep 500
+    Send "{Enter}"
+    Click 856, 801
+    Sleep 500
 }
 ; tambah sesuai kebutuhan
 
 ; ================== TRIGGER LOOP ==================
 SetTimer(CheckTrigger, 500)
+Sleep 500
+SetTimer(CheckMember, 500)
 
 CheckTrigger() {
     if !FileExist(triggerFile)
@@ -210,6 +247,71 @@ CheckTrigger() {
     else
         TrayTip("Aksi " aksi " tidak dikenal")
 
+}
+
+; ================== TRIGGER KHUSUS MEMBER ==================
+CheckMember() {
+    if !FileExist(memberFile)
+        return
+    data := FileRead(memberFile)
+    FileDelete(memberFile)
+    data := Trim(data)
+    if (data = "")
+        return
+
+    parts := StrSplit(data, "|")
+
+    ; Minimal ada nama member
+    if parts.Length < 1 {
+        TrayTip("Format member salah: " data)
+        return
+    }
+
+    namaMember := parts[1]
+    waktu := ""  ; default kosong
+    if parts.Length >= 2
+        waktu := parts[2]  ; parameter waktu (opsional)
+
+    ; Panggil fungsi isi member dengan parameter tambahan
+    FungsiIsiMember(namaMember)
+    Sleep 1500
+    FungsiIsiWaktu_Member(waktu)
+}
+FungsiIsiMember(namaMember) {
+    Click 331, 74 ; < Tombol klik Voucher Billing
+    Sleep 300
+
+    Click 663, 438 ; < Tombol klik Member di Voucher Billing
+    Sleep 100
+
+    Click 779, 436 ; < Tombol klik fieldbar member di Voucher Billing
+    Send "^a"
+    Sleep 50
+    Send "{Backspace}"
+    Sleep 50
+
+    Send namaMember
+    Sleep 1000
+
+    Click 896, 436 ; < Tombol cari di Voucher Billing
+    ; < Fungsi buat waktu
+    TrayTip("Member " namaMember " selesai")
+    Sleep 1000
+}
+
+FungsiIsiWaktu_Member(waktu) {
+    if waktu == "1 Jam"
+        DoClickMember(waktu)
+    else if waktu == "2 Jam"
+        DoClickMember(waktu)
+    else if waktu == "3 Jam"
+        DoClickMember(waktu)
+    else if waktu == "4 Jam"
+        DoClickMember(waktu)
+    else if waktu == "10 Jam"
+        DoClickMember(waktu)
+    else
+        TrayTip("Waktu tidak ditemukan di server")
 }
 
 ; Hotkey untuk testing
