@@ -1,117 +1,138 @@
 <!DOCTYPE html>
 <html lang="id" class="h-full bg-black">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}TmBilling{% endblock %}</title>
-    
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <!-- Inter Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <!-- Custom styles -->
     <style>
-        * { font-family: 'Inter', sans-serif; }
-        body { background-color: #0a0a0a; }
-        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: #0a0a0a;
+        }
+
+        @media (max-width: 768px) {
+            .glass-black {
+                padding-top: 24px;
+                /* Turunin 24px biar gak ketabrak notif */
+            }
+
+            /* Atau kalo mau lebih presisi */
+            nav {
+                padding-top: env(safe-area-inset-top, 24px);
+                /* Buat notched phones */
+            }
+        }
+
+
         /* Monochrome Dark Theme - Soft White */
         .monochrome-card {
             background: #111111;
-            border: 1px solid rgba(255,255,255,0.15);
-            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.8);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8);
         }
-        
+
         .monochrome-input {
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             background: #1a1a1a;
             color: #e5e5e5;
             transition: all 0.2s ease;
         }
-        
+
         .monochrome-input:focus {
             outline: none;
-            border-color: rgba(255,255,255,0.5);
+            border-color: rgba(255, 255, 255, 0.5);
             background: #222222;
-            box-shadow: 0 0 0 2px rgba(255,255,255,0.1);
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
         }
-        
+
         .monochrome-input::placeholder {
-            color: rgba(255,255,255,0.3);
+            color: rgba(255, 255, 255, 0.3);
         }
-        
+
         .monochrome-btn {
-            border: 1px solid rgba(255,255,255,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             background: transparent;
             color: #e5e5e5;
             transition: all 0.2s ease;
         }
-        
+
         .monochrome-btn:hover {
-            background: rgba(255,255,255,0.1);
-            border-color: rgba(255,255,255,0.5);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
         }
-        
+
         .monochrome-btn-white {
-            border: 1px solid rgba(255,255,255,0.5);
-            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.1);
             color: #ffffff;
             backdrop-filter: blur(5px);
             transition: all 0.2s ease;
         }
-        
+
         .monochrome-btn-white:hover {
-            background: rgba(255,255,255,0.2);
-            border-color: rgba(255,255,255,0.8);
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.8);
         }
-        
+
         select option {
             background: #1a1a1a;
             color: #e5e5e5;
         }
-        
+
         /* Scrollbar styling - more subtle */
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
         }
-        
+
         ::-webkit-scrollbar-track {
             background: #1a1a1a;
         }
-        
+
         ::-webkit-scrollbar-thumb {
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             border-radius: 0;
         }
-        
+
         ::-webkit-scrollbar-thumb:hover {
-            background: rgba(255,255,255,0.3);
+            background: rgba(255, 255, 255, 0.3);
         }
-        
+
         /* Subtle hover effects */
         .hover-lift {
             transition: transform 0.2s ease;
         }
-        
+
         .hover-lift:hover {
             transform: translateY(-2px);
         }
-        
+
         /* Glassmorphism but black */
         .glass-black {
             background: rgba(20, 20, 20, 0.8);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
     </style>
-    
+
     {% block extra_css %}{% endblock %}
 </head>
+
 <body class="bg-[#0a0a0a] text-[#e5e5e5]">
-    
+
     <!-- Navbar (hanya tampil jika user login) -->
     {% if session.logged_in %}
     <nav class="glass-black sticky top-0 z-50 border-b border-white/10">
@@ -121,14 +142,14 @@
                     <a href="{{ url_for('index') }}" class="flex items-center space-x-3 group">
                         <span class="text-2xl font-black text-white/90"></span>
                         <span class="text-xl font-bold text-white/90 tracking-tight">TmBilling</span>
-                        <span class="px-2 py-0.5 text-xs font-medium bg-white/10 text-white/80 border border-white/20">V1.0</span>
+                        <span
+                            class="px-2 py-0.5 text-xs font-medium bg-white/10 text-white/80 border border-white/20">V1.0</span>
                     </a>
                 </div>
-                
+
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center space-x-2">
-                    <a href="{{ url_for('index') }}" 
-                       class="px-4 py-2 text-sm font-medium transition-all duration-200 rounded-lg
+                    <a href="{{ url_for('index') }}" class="px-4 py-2 text-sm font-medium transition-all duration-200 rounded-lg
                               {% if request.endpoint == 'index' %}
                               bg-white/15 text-white border border-white/20
                               {% else %}
@@ -137,9 +158,8 @@
                         <span class="mr-2">🎮</span>
                         Input Paket Waktu Non Member
                     </a>
-                    
-                    <a href="{{ url_for('member') }}"
-                       class="px-4 py-2 text-sm font-medium transition-all duration-200 rounded-lg
+
+                    <a href="{{ url_for('member') }}" class="px-4 py-2 text-sm font-medium transition-all duration-200 rounded-lg
                               {% if request.endpoint == 'member' %}
                               bg-white/15 text-white border border-white/20
                               {% else %}
@@ -148,16 +168,16 @@
                         <span class="mr-2">👤</span>
                         Input Paket Waktu Member
                     </a>
-                    
+
                     <div class="w-px h-6 bg-white/10 mx-2"></div>
-                    
+
                     <a href="{{ url_for('logout') }}"
-                       class="px-4 py-2 text-sm font-medium text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200">
+                        class="px-4 py-2 text-sm font-medium text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200">
                         <span class="mr-2">🚪</span>
                         Logout
                     </a>
                 </div>
-                
+
                 <!-- Mobile menu button -->
                 <div class="md:hidden flex items-center">
                     <button type="button" id="mobileMenuBtn" class="p-2 text-white/70 hover:text-white">
@@ -168,12 +188,11 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Mobile menu -->
         <div id="mobileMenu" class="hidden md:hidden border-t border-white/10 glass-black">
             <div class="px-4 py-2 space-y-1">
-                <a href="{{ url_for('index') }}" 
-                   class="block px-4 py-3 text-base font-medium rounded-lg transition
+                <a href="{{ url_for('index') }}" class="block px-4 py-3 text-base font-medium rounded-lg transition
                           {% if request.endpoint == 'index' %}
                           bg-white/15 text-white border border-white/20
                           {% else %}
@@ -182,9 +201,8 @@
                     <span class="mr-3">🎮</span>
                     Input Paket
                 </a>
-                
-                <a href="{{ url_for('member') }}"
-                   class="block px-4 py-3 text-base font-medium rounded-lg transition
+
+                <a href="{{ url_for('member') }}" class="block px-4 py-3 text-base font-medium rounded-lg transition
                           {% if request.endpoint == 'member' %}
                           bg-white/15 text-white border border-white/20
                           {% else %}
@@ -193,11 +211,11 @@
                     <span class="mr-3">👤</span>
                     Input Member
                 </a>
-                
+
                 <div class="h-px bg-white/10 my-2"></div>
-                
+
                 <a href="{{ url_for('logout') }}"
-                   class="block px-4 py-3 text-base font-medium text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition">
+                    class="block px-4 py-3 text-base font-medium text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition">
                     <span class="mr-3">🚪</span>
                     Logout
                 </a>
@@ -205,22 +223,22 @@
         </div>
     </nav>
     {% endif %}
-    
+
     <!-- Main Content -->
     <main class="min-h-[calc(100vh-4rem)] flex items-center justify-center p-4 sm:p-6 lg:p-8">
         {% block content %}{% endblock %}
     </main>
-    
+
     <!-- JavaScript for mobile menu -->
     <script>
         const mobileBtn = document.getElementById('mobileMenuBtn');
         const mobileMenu = document.getElementById('mobileMenu');
-        
+
         if (mobileBtn && mobileMenu) {
             mobileBtn.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
             });
-            
+
             document.addEventListener('click', (e) => {
                 if (!mobileBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
                     mobileMenu.classList.add('hidden');
@@ -228,7 +246,8 @@
             });
         }
     </script>
-    
+
     {% block scripts %}{% endblock %}
 </body>
+
 </html>
