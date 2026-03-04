@@ -1,14 +1,56 @@
 #Requires AutoHotkey v2.0
 #SingleInstance Force
 #Include cd.ahk
+#Include Gdip_All.ahk
 
 triggerFile := "C:\trigger.txt"
 memberFile := "C:\member.txt"
+screenshotDir := A_ScriptDir "\screenshot\"
 iniFile := A_ScriptDir "\koordinat.ini"
 
 CoordMode "Mouse", "Screen"
 
 ^+A:: CreateDeleteIni
+; [Preset 1] Area pojok kiri atas 400x300
+^!1:: {
+    AmbilScreenshot(0, 0, 1920, 1080, "pojok_kiri_400x300.png")
+}
+
+; ============================================================
+; FUNGSI SCREENSHOT
+; ============================================================
+
+; Init GDI+
+if !(pToken := Gdip_Startup()) {
+    MsgBox "GDI+ gagal dijalankan"
+    ExitApp
+}
+OnExit((*) => Gdip_Shutdown(pToken))
+
+AmbilScreenshot(x, y, w, h, namaFile) {
+    global screenshotDir
+
+    ; Validasi
+    if (w <= 0 or h <= 0) {
+        MsgBox "Lebar dan tinggi harus positif!"
+        return 0
+    }
+
+    ; Format: "x|y|lebar|tinggi"
+    pBitmap := Gdip_BitmapFromScreen(x "|" y "|" w "|" h)
+    if !pBitmap {
+        MsgBox "Gagal ambil screenshot"
+        return 0
+    }
+
+    ; Simpan file
+    path := screenshotDir . namaFile
+    Gdip_SaveBitmapToFile(pBitmap, path)
+    Gdip_DisposeImage(pBitmap)
+
+    TrayTip "Screenshot tersimpan:", path
+    return path
+}
 
 ; ================== FUNGSI DASAR ==================
 DoClick(pc) {
@@ -187,6 +229,8 @@ FungsiAksi_TutupBilling() {
 SetTimer(CheckTrigger, 500)
 Sleep 500
 SetTimer(CheckMember, 500)
+Sleep 500
+SetTimer(CheckScreenshot, 500)
 
 CheckTrigger() {
     if !FileExist(triggerFile)
@@ -277,6 +321,19 @@ CheckMember() {
     Sleep 1500
     FungsiIsiWaktu_Member(waktu)
 }
+
+; ======================== Trigger ScreenShot ======================
+CheckScreenshot() {
+    screenshotFile := "C:\screenshot.txt"
+    if !FileExist(screenshotFile) {
+        return
+    } else {
+        AmbilScreenshot(345, 146, 1200, 300, "smartbilling_kasir.png")
+        FileDelete (screenshotFile)
+        sleep 1000
+    }
+}
+
 FungsiIsiMember(namaMember) {
     Click 331, 74 ; < Tombol klik Voucher Billing
     Sleep 300

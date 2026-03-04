@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, url_for, session, flash
+from flask import Flask, request, render_template, redirect, url_for, session, send_from_directory, flash
 from functools import wraps
 from datetime import timedelta, datetime
 import os
@@ -192,6 +192,76 @@ def member():
         return redirect(url_for('member'))
     
     return render_template("member.html", WaktuMember_List=WaktuMember_List)
+
+
+@app.route('/screenshot', methods=['GET', 'POST'])
+@login_required
+def screenshot():
+    # INI YANG DITAMBAH - cek file screenshot
+    current_dir = os.getcwd()
+    screenshot_dir = os.path.join(current_dir, 'screenshot')
+    screenshot_file = 'smartbilling_kasir.png'
+    full_path = os.path.join(screenshot_dir, screenshot_file)
+    
+    screenshot_path = None
+    last_updated = None
+    
+    # Cek apakah file ada
+    if os.path.exists(full_path):
+        screenshot_path = screenshot_file
+        # Ambil waktu last modified
+        mod_time = os.path.getmtime(full_path)
+        from datetime import datetime
+        last_updated = datetime.fromtimestamp(mod_time).strftime('%Y-%m-%d %H:%M:%S')
+    
+    # POST request (tombol ditekan)
+    if request.method == 'POST':
+        value_screenshot = request.form.get('value_screenshot', '').strip()
+
+        if value_screenshot == "value_screenshot":
+            try:
+                with open(r'C:\screenshot.txt', 'w') as f:
+                    f.write("")  # Kasih isi biar gak error
+                
+                log_success(f"Screenshot Disimpan")
+                flash("Berhasil", 'success')
+            
+            except Exception as e:
+                error_msg = f"Gagal menulis file screenshot: {str(e)}"
+                log_error(error_msg)
+                flash(f"Gagal menulis file: {e}", 'error')
+        else:
+            log_warning("Nilai value screenshot diluar dari yg dimau")
+            flash("Error nilai yang diambil")
+        
+        return redirect(url_for('screenshot'))
+    
+    # KIRIM KE TEMPLATE
+    return render_template("screenshot.html", 
+                         screenshot_path=screenshot_path,
+                         last_updated=last_updated)  # <-- INI DITAMBAH
+
+@app.route('/screenshot/<path:filename>')
+def serve_screenshot(filename):
+    current_dir = os.getcwd()
+    screenshot_dir = os.path.join(current_dir, 'screenshot')  # atau path absolut
+    # Tambah print buat debug
+    print(f"Current dir: {current_dir}")
+    print(f"Screenshot dir: {screenshot_dir}")
+    print(f"File exists: {os.path.exists(os.path.join(screenshot_dir, filename))}")
+    return send_from_directory(screenshot_dir, filename)
+
+@app.route('/pdf/<path:filename>')
+def serve_pdf(filename):
+    """Serve PDF dari folder laporan"""
+    pdf_dir = os.path.join(os.getcwd(), 'pdf')
+    return send_from_directory(pdf_dir, filename)
+
+@app.route('/laporan')
+@login_required
+def laporan():
+    return render_template('laporan.html')
+
 
 # ==================== ROUTE UNTUK LIHAT LOG ====================
 @app.route('/logs')
