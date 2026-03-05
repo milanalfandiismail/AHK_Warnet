@@ -8,6 +8,7 @@ memberFile := "C:\member.txt"
 screenshotDir := A_ScriptDir "\screenshot\"
 iniFile := A_ScriptDir "\koordinat.ini"
 
+TraySetIcon(A_ScriptDir "\smartbilling_website.ico")
 CoordMode "Mouse", "Screen"
 
 ^+A:: CreateDeleteIni
@@ -15,6 +16,8 @@ CoordMode "Mouse", "Screen"
 ^!1:: {
     AmbilScreenshot(0, 0, 1920, 1080, "pojok_kiri_400x300.png")
 }
+^!2:: DoClickLaporan
+
 
 ; ============================================================
 ; FUNGSI SCREENSHOT
@@ -81,6 +84,26 @@ DoClickMember(waktu_member) {
     }
 }
 
+DoClickLaporan() {
+    nama_laporan_file := "laporan_penjualan.pdf"
+
+    Sleep 1500
+    Click 1564, 80
+    Sleep 500
+    Click 496, 307
+    Sleep 500
+    Click 1234, 342
+    Sleep 500
+    Send nama_laporan_file
+    Sleep 1000
+    Send "{Enter}"
+    Sleep 1000
+    Send "{Left}"
+    Sleep 1000
+    Send "{Enter}"
+    Sleep 1000
+    Click 1279, 270
+}
 ; ================== FUNGSI WAKTU ==================
 FungsiWaktu_1() {
     Sleep 100
@@ -231,6 +254,8 @@ Sleep 500
 SetTimer(CheckMember, 500)
 Sleep 500
 SetTimer(CheckScreenshot, 500)
+Sleep 500
+SetTimer(CheckLaporan, 500)
 
 CheckTrigger() {
     if !FileExist(triggerFile)
@@ -328,9 +353,21 @@ CheckScreenshot() {
     if !FileExist(screenshotFile) {
         return
     } else {
-        AmbilScreenshot(345, 146, 1200, 300, "smartbilling_kasir.png")
+        AmbilScreenshot(5, 94, 1200, 180, "smartbilling_kasir.png")
         FileDelete (screenshotFile)
         sleep 1000
+    }
+}
+
+CheckLaporan() {
+    laporanFile := "C:\laporan.txt"
+    if !FileExist(laporanFile) {
+        return
+    } else {
+        sleep 1000
+        DoClickLaporan()
+        FileDelete(laporanFile)
+        sleep 500
     }
 }
 

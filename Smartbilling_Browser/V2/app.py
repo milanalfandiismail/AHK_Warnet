@@ -4,15 +4,14 @@ from datetime import timedelta, datetime
 import os
 import logging
 import logging.handlers
-import time
 
 app = Flask(__name__)
 app.secret_key = 'a3f5d8e9c2b1a7f4e6d9c8b2a1f4e7d8c9b2a1f4e6d9c8b2a1f4e7d8c9b2a1f4e6d'
 app.permanent_session_lifetime = timedelta(days=7)
 
 # Konfigurasi username dan password
-USERNAME = 'milan'
-PASSWORD = 'milan123'
+USERNAME = 'admin'
+PASSWORD = 'billing123'
 
 # Data dropdown
 PC_LIST = ['PC-1', 'PC-2', 'PC-3', 'PC-4', 'PC-5', 'PC-6', 'PC-7', 'PC-8', 'PC-9', 'PC-10', 'PC-11', 'PC-12', 'PC-13', 'PC-14', 'PC-15', 'PC-16', 'PC-17', 'PC-18', 'PC-19']
@@ -199,10 +198,9 @@ def member():
 @login_required
 def screenshot():
     # INI YANG DITAMBAH - cek file screenshot
-    current_dir = os.getcwd()
-    screenshot_dir = os.path.join(current_dir, 'screenshot')
+    temp_dic = "D:\Script\Smartbilling_Browser\V2\screenshot"
     screenshot_file = 'smartbilling_kasir.png'
-    full_path = os.path.join(screenshot_dir, screenshot_file)
+    full_path = os.path.join(temp_dic, screenshot_file)
     
     screenshot_path = None
     last_updated = None
@@ -244,13 +242,8 @@ def screenshot():
 
 @app.route('/screenshot/<path:filename>')
 def serve_screenshot(filename):
-    current_dir = os.getcwd()
-    screenshot_dir = os.path.join(current_dir, 'screenshot')  # atau path absolut
-    # Tambah print buat debug
-    print(f"Current dir: {current_dir}")
-    print(f"Screenshot dir: {screenshot_dir}")
-    print(f"File exists: {os.path.exists(os.path.join(screenshot_dir, filename))}")
-    return send_from_directory(screenshot_dir, filename)
+    file_path = "D:\Script\Smartbilling_Browser\V2\screenshot"
+    return send_from_directory(file_path, filename)
 
 @app.route('/pdf/<path:filename>')
 def serve_pdf(filename):
@@ -258,28 +251,9 @@ def serve_pdf(filename):
     pdf_dir = os.path.join(os.getcwd(), 'pdf')
     return send_from_directory(pdf_dir, filename)
 
-@app.route('/laporan', methods=['GET', 'POST'])
+@app.route('/laporan')
 @login_required
 def laporan():
-    if request.method == "POST":
-        laporan_penjualan = request.form.get('laporan_penjualan', '').strip()
-
-        if laporan_penjualan == "laporan_penjualan":
-            try:
-                with open(r'C:\laporan.txt', 'w') as f:
-                    f.write("")
-
-                log_success("Laporan Berhasil Dibuat")
-                flash("Berhasil", ' Success')
-            
-            except Exception as e:
-                error_msg = f"Gagal menulis file laporan.txt: {str(e)}"
-                log_error(error_msg)
-                flash("Gagal, nilai yang disimpan berbeda")
-            
-            time.sleep(10)
-            return redirect(url_for('laporan'))
-
     return render_template('laporan.html')
 
 

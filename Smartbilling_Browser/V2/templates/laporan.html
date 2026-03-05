@@ -21,26 +21,13 @@
 
             <!-- Filter & Tombol Download -->
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-
+                
                 <!-- Tombol Download PDF -->
-                <form method="post">
-                    <button type="submit" name="laporan_penjualan" value="laporan_penjualan"
-                        class="monochrome-btn-white font-medium py-2 px-6 rounded-xl hover-lift text-sm flex items-center gap-2"
-                        onclick=startTimerandRefresh() id="buttonText">
-                        <i class="fas fa-refresh"></i>
-                        <span>Ambil File Baru</span>
-                    </button>
-                </form>
-                <button type="submit" name="laporan_penjualan" value="laporan_penjualan"
-                    class="monochrome-btn-white font-medium py-2 px-6 rounded-xl hover-lift text-sm flex items-center gap-2"
-                    onclick=location.reload() 
-                    id="buttonText2">
+                <button class="monochrome-btn-white font-medium py-2 px-6 rounded-xl hover-lift text-sm flex items-center gap-2">
                     <i class="fas fa-refresh"></i>
-                    <span>Reload</span>
+                    <span>Ambil File Baru</span>
                 </button>
             </div>
-            <p class="text-white/40 mt-3 text-sm">Untuk Laporan Penjualan baru silahkan klik tombol Ambil File Baru,
-                lalu tunggu selama 5-10 detik, setelah 5-10 detik klik tombol Reload</p>
         </div>
     </div>
 
@@ -66,9 +53,9 @@
             <!-- PDF DISPLAY - Menggunakan iframe untuk PDF -->
             <div class="overflow-auto max-h-[70vh]" style="scrollbar-width: thin;">
                 <!-- Cara 1: Iframe PDF Viewer -->
-                <iframe src="{{ url_for('serve_pdf', filename='laporan_penjualan.pdf') }}"
-                    class="w-full h-[70vh] rounded-lg border border-white/5" id="pdf-viewer"
-                    style="background: #1a1a1a;">
+                <iframe src="{{ url_for('serve_pdf', filename='laporan_penjualan.pdf') }}" 
+                        class="w-full h-[70vh] rounded-lg border border-white/5"
+                        style="background: #1a1a1a;">
                 </iframe>
 
                 <!-- Cara 2: Embed PDF (alternatif) 
@@ -95,36 +82,30 @@
 </div>
 
 <style>
-    /* Scrollbar styling sama */
-    .overflow-auto::-webkit-scrollbar {
-        width: 6px;
-        height: 6px;
-    }
+/* Scrollbar styling sama */
+.overflow-auto::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+.overflow-auto::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+.overflow-auto::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 0;
+}
+.overflow-auto::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+.overflow-auto {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+}
 
-    .overflow-auto::-webkit-scrollbar-track {
-        background: #1a1a1a;
-    }
-
-    .overflow-auto::-webkit-scrollbar-thumb {
-        background: rgba(255, 255, 255, 0.2);
-        border-radius: 0;
-    }
-
-    .overflow-auto::-webkit-scrollbar-thumb:hover {
-        background: rgba(255, 255, 255, 0.3);
-    }
-
-    .overflow-auto {
-        -webkit-overflow-scrolling: touch;
-        scroll-behavior: smooth;
-    }
-
-    /* Styling untuk iframe PDF */
-    iframe,
-    embed {
-        background: #1a1a1a;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-    }
+/* Styling untuk iframe PDF */
+iframe, embed {
+    background: #1a1a1a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
 </style>
-
 {% endblock %}
