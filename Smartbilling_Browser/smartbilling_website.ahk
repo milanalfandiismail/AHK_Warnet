@@ -250,11 +250,8 @@ FungsiAksi_TutupBilling() {
 
 ; ================== TRIGGER LOOP ==================
 SetTimer(CheckTrigger, 500)
-Sleep 500
 SetTimer(CheckMember, 500)
-Sleep 500
 SetTimer(CheckScreenshot, 500)
-Sleep 500
 SetTimer(CheckLaporan, 500)
 
 CheckTrigger() {
@@ -412,4 +409,5 @@ FungsiIsiWaktu_Member(waktu) {
 ^F1:: {
     FileAppend("PC1|4|Buka Paket", triggerFile)
 }
+
 ^F2:: ExitApp
