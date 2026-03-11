@@ -110,6 +110,8 @@ FungsiWaktu_1() {
     Send "{Right}"
     Sleep 100
     Send "{Enter}"
+    Sleep 100
+    Send "{Escape}"
 }
 FungsiWaktu_2() {
     Sleep 100
@@ -118,6 +120,8 @@ FungsiWaktu_2() {
     Send "{Down}"
     Sleep 100
     Send "{Enter}"
+    Sleep 100
+    Send "{Escape}"
 }
 FungsiWaktu_3() {
     Sleep 100
@@ -128,6 +132,8 @@ FungsiWaktu_3() {
     Send "{Down}"
     Sleep 100
     Send "{Enter}"
+    Sleep 100
+    Send "{Escape}"
 }
 FungsiWaktu_4() {
     Sleep 100
@@ -140,6 +146,8 @@ FungsiWaktu_4() {
     Send "{Down}"
     Sleep 100
     Send "{Enter}"
+    Sleep 100
+    Send "{Escape}"
 }
 FungsiWaktu_10() {
     Sleep 100
@@ -154,6 +162,8 @@ FungsiWaktu_10() {
     Send "{Down}"
     Sleep 100
     Send "{Enter}"
+    Sleep 100
+    Send "{Escape}"
 }
 FungsiTambahkanWaktu_1Jam() {
     Sleep 100
@@ -411,3 +421,4 @@ FungsiIsiWaktu_Member(waktu) {
 }
 
 ^F2:: ExitApp
+
