@@ -155,15 +155,11 @@ FungsiWaktuReguler_2_30() {
     Send "{Escape}"
 }
 
-FungsiTambahkanWaktu_1Jam() {
+FungsiWaktuReguler_3() {
+    Sleep 100
+    Send "{Right}"
     Sleep 100
     Send "{Down}"
-    Sleep 100
-    Send "{Enter}"
-    Sleep 100
-    Send "{Escape}"
-}
-FungsiTambahkanWaktu_2Jam() {
     Sleep 100
     Send "{Down}"
     Sleep 100
@@ -174,7 +170,317 @@ FungsiTambahkanWaktu_2Jam() {
     Send "{Escape}"
 }
 
-FungsiTambahkanWaktu_3Jam() {
+FungsiWaktuReguler_3_40() {
+    Sleep 100
+    Send "{Right}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Enter}"
+    Sleep 100
+    Send "{Escape}"
+}
+
+FungsiWaktuReguler_5() {
+    Sleep 100
+    Send "{Right}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Enter}"
+    Sleep 100
+    Send "{Escape}"
+}
+
+FungsiWaktuVip_1() {
+    Sleep 100
+    Send "{Right}"
+    Sleep 100
+    Send "{Enter}"
+    Sleep 100
+    Send "{Escape}"
+}
+
+FungsiWaktuVip_2() {
+    Sleep 100
+    Send "{Right}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Enter}"
+    Sleep 100
+    Send "{Escape}"
+}
+
+FungsiWaktuVip_3() {
+    Sleep 100
+    Send "{Right}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Enter}"
+    Sleep 100
+    Send "{Escape}"
+}
+
+FungsiWaktuVip_4() {
+    Sleep 100
+    Send "{Right}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Enter}"
+    Sleep 100
+    Send "{Escape}"
+}
+
+FungsiWaktuVVip_1() {
+    Sleep 100
+    Send "{Right}"
+    Sleep 100
+    Send "{Enter}"
+    Sleep 100
+    Send "{Escape}"
+}
+FungsiWaktuVVip_1_15() {
+    Sleep 100
+    Send "{Right}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Enter}"
+    Sleep 100
+    Send "{Escape}"
+}
+FungsiWaktuVVip_2() {
+    Sleep 100
+    Send "{Right}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Enter}"
+    Sleep 100
+    Send "{Escape}"
+}
+
+FungsiWaktuVVip_3() {
+    Sleep 100
+    Send "{Right}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Enter}"
+    Sleep 100
+    Send "{Escape}"
+}
+
+FungsiWaktuVVip_4() {
+    Sleep 100
+    Send "{Right}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Enter}"
+    Sleep 100
+    Send "{Escape}"
+}
+
+FungsiWaktuVVip_5() {
+    Sleep 100
+    Send "{Right}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Enter}"
+    Sleep 100
+    Send "{Escape}"
+}
+
+FungsiWaktuVVip_6() {
+    Sleep 100
+    Send "{Right}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Enter}"
+    Sleep 100
+    Send "{Escape}"
+}
+
+FungsiWaktuVVip_7() {
+    Sleep 100
+    Send "{Right}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Enter}"
+    Sleep 100
+    Send "{Escape}"
+}
+
+FungsiWaktuVVip_8() {
+    Sleep 100
+    Send "{Right}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Enter}"
+    Sleep 100
+    Send "{Escape}"
+}
+
+FungsiWaktuVVip_9() {
+    Sleep 100
+    Send "{Right}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Enter}"
+    Sleep 100
+    Send "{Escape}"
+}
+
+FungsiWaktuVVip_10() {
+    Sleep 100
+    Send "{Right}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Enter}"
+    Sleep 100
+    Send "{Escape}"
+}
+
+FungsiTambahkanWaktuReguler_1Jam() {
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Enter}"
+    Sleep 100
+    Send "{Escape}"
+}
+FungsiTambahkanWaktuReguler_2Jam() {
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Down}"
+    Sleep 100
+    Send "{Enter}"
+    Sleep 100
+    Send "{Escape}"
+}
+
+FungsiTambahkanWaktuReguler_2_30Jam() {
     Sleep 100
     Send "{Down}"
     Sleep 100
@@ -276,11 +582,10 @@ CheckTrigger() {
 
     ; 1. Klik PC
     DoClick(pc)
-    
+
     ; 2. Panggil fungsi aksi berdasarkan nama
     if (aksi = "Buka Paket") {
         FungsiAksi_BukaPaket()
-        /*
         if (role = "reguler") {
             if (waktu = "1")
                 FungsiWaktuReguler_1()
@@ -329,23 +634,21 @@ CheckTrigger() {
             else if (waktu = "10")
                 FungsiWaktuVVip_10()
         }
-            */
 
     } else {
         TrayTip("Aksi" aksi " tidak dikenali")
     }
     if (aksi = "Tambah Waktu") {
         FungsiAksi_TambahkanWaktu()
-        if (waktu = "1")
-            FungsiTambahkanWaktu_1Jam()
-        else if (waktu = "2")
-            FungsiTambahkanWaktu_2Jam()
-        else if (waktu = "3")
-            FungsiTambahkanWaktu_3Jam()
-        else if (waktu = "4")
-            FungsiTambahkanWaktu_4Jam()
-        else if (waktu = "10")
-            FungsiTambahkanWaktu_10Jam()
+        if (role = "reguler")
+            if (waktu = "1")
+                FungsiTambahkanWaktuReguler_1Jam()
+            else if (waktu = "2")
+                FungsiTambahkanWaktuReguler_2Jam
+            else if (waktu = "2.30")
+                FungsiTambahkanWaktuReguler_2_30Jam
+            else if (waktu = "3")
+                FungsiTambahkanWaktu_3Jam()
     } else {
         TrayTip("Error, waktu diluar nilai")
     }
