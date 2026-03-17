@@ -2,6 +2,9 @@
 #SingleInstance Force
 #Include createkoordinat_PC.ahk
 #Include Gdip_All.ahk
+#Include FungsiBukaPaket_Waktu.ahk
+#Include FungsiTambahWaktu.ahk
+#Include FungsiMember.ahk
 
 triggerFile := "C:\trigger.txt"
 memberFile := "C:\member.txt"
@@ -84,22 +87,6 @@ DoClick(pc) {
     Click("Right", x, y)
 }
 
-DoClickMember(waktu_member) {
-    x := IniRead(iniFile, waktu_member, "x", 0)
-    y := IniRead(iniFile, waktu_member, "y", 0)
-    if (x && y) {
-        Sleep 1000
-        Click("Left", x, y)
-        Sleep 1000
-        Click 984, 719 ; < Tombol Penjualan Paket di Voucher Billing
-        Sleep 500
-        Send "{Enter}"
-        Sleep 500
-        Click 1026, 758 ; < Tombol tutup di Paket di Voucher Billing
-    } else {
-        TrayTip("Waktu" waktu_member " tidak ditemukan")
-    }
-}
 
 DoClickLaporan() {
     nama_laporan_file := "laporan_penjualan.pdf"
@@ -120,408 +107,6 @@ DoClickLaporan() {
     Send "{Enter}"
     Sleep 1000
     Click 1279, 270
-}
-; ================== FUNGSI WAKTU ==================
-FungsiWaktuReguler_1() {
-    Sleep 100
-    Send "{Right}"
-    Sleep 100
-    Send "{Enter}"
-    Sleep 100
-    Send "{Escape}"
-}
-
-FungsiWaktuReguler_2() {
-    Sleep 100
-    Send "{Right}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Enter}"
-    Sleep 100
-    Send "{Escape}"
-}
-
-FungsiWaktuReguler_2_30() {
-    Sleep 100
-    Send "{Right}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Enter}"
-    Sleep 100
-    Send "{Escape}"
-}
-
-FungsiWaktuReguler_3() {
-    Sleep 100
-    Send "{Right}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Enter}"
-    Sleep 100
-    Send "{Escape}"
-}
-
-FungsiWaktuReguler_3_40() {
-    Sleep 100
-    Send "{Right}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Enter}"
-    Sleep 100
-    Send "{Escape}"
-}
-
-FungsiWaktuReguler_5() {
-    Sleep 100
-    Send "{Right}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Enter}"
-    Sleep 100
-    Send "{Escape}"
-}
-
-FungsiWaktuVip_1() {
-    Sleep 100
-    Send "{Right}"
-    Sleep 100
-    Send "{Enter}"
-    Sleep 100
-    Send "{Escape}"
-}
-
-FungsiWaktuVip_2() {
-    Sleep 100
-    Send "{Right}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Enter}"
-    Sleep 100
-    Send "{Escape}"
-}
-
-FungsiWaktuVip_3() {
-    Sleep 100
-    Send "{Right}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Enter}"
-    Sleep 100
-    Send "{Escape}"
-}
-
-FungsiWaktuVip_4() {
-    Sleep 100
-    Send "{Right}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Enter}"
-    Sleep 100
-    Send "{Escape}"
-}
-
-FungsiWaktuVVip_1() {
-    Sleep 100
-    Send "{Right}"
-    Sleep 100
-    Send "{Enter}"
-    Sleep 100
-    Send "{Escape}"
-}
-FungsiWaktuVVip_1_15() {
-    Sleep 100
-    Send "{Right}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Enter}"
-    Sleep 100
-    Send "{Escape}"
-}
-FungsiWaktuVVip_2() {
-    Sleep 100
-    Send "{Right}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Enter}"
-    Sleep 100
-    Send "{Escape}"
-}
-
-FungsiWaktuVVip_3() {
-    Sleep 100
-    Send "{Right}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Enter}"
-    Sleep 100
-    Send "{Escape}"
-}
-
-FungsiWaktuVVip_4() {
-    Sleep 100
-    Send "{Right}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Enter}"
-    Sleep 100
-    Send "{Escape}"
-}
-
-FungsiWaktuVVip_5() {
-    Sleep 100
-    Send "{Right}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Enter}"
-    Sleep 100
-    Send "{Escape}"
-}
-
-FungsiWaktuVVip_6() {
-    Sleep 100
-    Send "{Right}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Enter}"
-    Sleep 100
-    Send "{Escape}"
-}
-
-FungsiWaktuVVip_7() {
-    Sleep 100
-    Send "{Right}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Enter}"
-    Sleep 100
-    Send "{Escape}"
-}
-
-FungsiWaktuVVip_8() {
-    Sleep 100
-    Send "{Right}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Enter}"
-    Sleep 100
-    Send "{Escape}"
-}
-
-FungsiWaktuVVip_9() {
-    Sleep 100
-    Send "{Right}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Enter}"
-    Sleep 100
-    Send "{Escape}"
-}
-
-FungsiWaktuVVip_10() {
-    Sleep 100
-    Send "{Right}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Enter}"
-    Sleep 100
-    Send "{Escape}"
-}
-
-FungsiTambahkanWaktuReguler_1Jam() {
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Enter}"
-    Sleep 100
-    Send "{Escape}"
-}
-FungsiTambahkanWaktuReguler_2Jam() {
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Enter}"
-    Sleep 100
-    Send "{Escape}"
-}
-
-FungsiTambahkanWaktuReguler_2_30Jam() {
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Enter}"
-    Sleep 100
-    Send "{Escape}"
-}
-
-FungsiTambahkanWaktu_4Jam() {
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Enter}"
-    Sleep 100
-    Send "{Escape}"
-}
-FungsiTambahkanWaktu_10Jam() {
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Down}"
-    Sleep 100
-    Send "{Enter}"
-    Sleep 100
-    Send "{Escape}"
 }
 
 ; ================== FUNGSI AKSI ==================
@@ -549,7 +134,7 @@ FungsiAksi_TutupBilling() {
     Send "{Down}"
     Sleep 500
     Send "{Enter}"
-    Click 856, 801
+    Click 1011, 745
     Sleep 500
 }
 ; tambah sesuai kebutuhan
@@ -640,15 +225,45 @@ CheckTrigger() {
     }
     if (aksi = "Tambah Waktu") {
         FungsiAksi_TambahkanWaktu()
-        if (role = "reguler")
+        if (role = "reguler") {
             if (waktu = "1")
                 FungsiTambahkanWaktuReguler_1Jam()
             else if (waktu = "2")
-                FungsiTambahkanWaktuReguler_2Jam
+                FungsiTambahkanWaktuReguler_2Jam()
             else if (waktu = "2.30")
-                FungsiTambahkanWaktuReguler_2_30Jam
+                FungsiTambahkanWaktuReguler_2_30Jam()
             else if (waktu = "3")
-                FungsiTambahkanWaktu_3Jam()
+                FungsiTambahkanWaktuReguler_3Jam()
+            else if (waktu = "3.40")
+                FungsiTambahkanWaktuReguler_3_40Jam()
+            else if (waktu = "5")
+                FungsiTambahkanWaktuReguler_5Jam()
+        }
+        else if role = "vvip" {
+            if (waktu = "1")
+                FungsiTambahkanWaktuVVip_1Jam()
+            else if (waktu = "1.15")
+                FungsiTambahkanWaktuVVip_1_15Jam()
+            else if (waktu = "2")
+                FungsiTambahkanWaktuVVip_2Jam()
+            else if (waktu = "3")
+                FungsiTambahkanWaktuVVip_3Jam()
+            else if (waktu = "4")
+                FungsiTambahkanWaktuVVip_4Jam()
+            else if (waktu = "5")
+                FungsiTambahkanWaktuVVip_5Jam()
+            else if (waktu = "6")
+                FungsiTambahkanWaktuVVip_6Jam()
+            else if (waktu = "7")
+                FungsiTambahkanWaktuVVip_7Jam()
+            else if (waktu = "8")
+                FungsiTambahkanWaktuVVip_8Jam()
+            else if (waktu = "9")
+                FungsiTambahkanWaktuVVip_9Jam()
+            else if (waktu = "10")
+                FungsiTambahkanWaktuVVip_10Jam()
+        }
+
     } else {
         TrayTip("Error, waktu diluar nilai")
     }
@@ -683,7 +298,7 @@ CheckMember() {
         waktu := parts[2]  ; parameter waktu (opsional)
 
     ; Panggil fungsi isi member dengan parameter tambahan
-    FungsiIsiMember(namaMember)
+    FungsiIsiNamaMember(namaMember)
     Sleep 1500
     FungsiIsiWaktu_Member(waktu)
 }
@@ -694,7 +309,7 @@ CheckScreenshot() {
     if !FileExist(screenshotFile) {
         return
     } else {
-        AmbilScreenshot(5, 94, 1200, 180, "smartbilling_kasir.png")
+        AmbilScreenshot(5, 94, 1800, 800, "smartbilling_kasir.png")
         FileDelete (screenshotFile)
         sleep 1000
     }
@@ -712,42 +327,8 @@ CheckLaporan() {
     }
 }
 
-FungsiIsiMember(namaMember) {
-    Click 331, 74 ; < Tombol klik Voucher Billing
-    Sleep 300
 
-    Click 663, 438 ; < Tombol klik Member di Voucher Billing
-    Sleep 100
 
-    Click 779, 436 ; < Tombol klik fieldbar member di Voucher Billing
-    Send "^a"
-    Sleep 50
-    Send "{Backspace}"
-    Sleep 50
-
-    Send namaMember
-    Sleep 1000
-
-    Click 896, 436 ; < Tombol cari di Voucher Billing
-    ; < Fungsi buat waktu
-    TrayTip("Member " namaMember " selesai")
-    Sleep 1000
-}
-
-FungsiIsiWaktu_Member(waktu) {
-    if waktu == "1 Jam"
-        DoClickMember(waktu)
-    else if waktu == "2 Jam"
-        DoClickMember(waktu)
-    else if waktu == "3 Jam"
-        DoClickMember(waktu)
-    else if waktu == "4 Jam"
-        DoClickMember(waktu)
-    else if waktu == "10 Jam"
-        DoClickMember(waktu)
-    else
-        TrayTip("Waktu tidak ditemukan di server")
-}
 
 ; Hotkey untuk testing
 ^F1:: {

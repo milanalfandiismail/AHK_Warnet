@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="id" class="h-full bg-black">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TmBilling{% endblock %}</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome Icons (alternatif lebih ringan) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom styles -->
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: #0a0a0a;
+        }
+
+        /* Monochrome Dark Theme - Soft White */
+        .monochrome-card {
+            background: #111111;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8);
+        }
+
+        .monochrome-input {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: #1a1a1a;
+            color: #e5e5e5;
+            transition: all 0.2s ease;
+        }
+
+        .monochrome-input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.5);
+            background: #222222;
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+        }
+
+        .monochrome-input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .monochrome-btn {
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: transparent;
+            color: #e5e5e5;
+            transition: all 0.2s ease;
+        }
+
+        .monochrome-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .monochrome-btn-white {
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            backdrop-filter: blur(5px);
+            transition: all 0.2s ease;
+        }
+
+        .monochrome-btn-white:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.8);
+        }
+
+        select option {
+            background: #1a1a1a;
+            color: #e5e5e5;
+        }
+
+        /* Scrollbar styling - more subtle */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 0;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Subtle hover effects */
+        .hover-lift {
+            transition: transform 0.2s ease;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Glassmorphism but black */
+        .glass-black {
+            background: rgba(20, 20, 20, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Navbar links - prevent text wrapping */
+        .nav-link {
+            white-space: nowrap;
+        }
+        
+        /* Dropdown animation */
+        .dropdown-enter {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        
+        .dropdown-enter-active {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.2s, transform 0.2s;
+        }
+    </style>
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body class="bg-[#0a0a0a] text-[#e5e5e5]">
+
+    <!-- Navbar (hanya tampil jika user login) -->
+    {% if session.logged_in %}
+    <nav class="glass-black sticky top-0 z-50 border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <!-- Logo section - lebih kecil di mobile -->
+                <div class="flex items-center flex-shrink-0">
+                    <a href="{{ url_for('index') }}" class="flex items-center space-x-1 sm:space-x-3 group">
+                        <span class="text-xl sm:text-2xl font-black text-white/90">🎮</span>
+                        <span class="text-base sm:text-xl font-bold text-white/90 tracking-tight">TmBilling</span>
+                        <span class="hidden xs:inline px-1.5 sm:px-2 py-0.5 text-[10px] sm:text-xs font-medium bg-white/10 text-white/80 border border-white/20">V1.0</span>
+                    </a>
+                </div>
+
+                <!-- Desktop Menu - dengan dropdown untuk menghemat space -->
+                <div class="hidden md:flex items-center space-x-1 lg:space-x-2">
+                    <!-- Dropdown Input -->
+                    <div class="relative group">
+                        <button class="px-3 lg:px-4 py-2 text-sm font-medium transition-all duration-200 rounded-lg text-white/70 hover:text-white hover:bg-white/10 flex items-center gap-1 nav-link">
+                            <i class="fas fa-pen-alt mr-1 text-xs"></i>
+                            <span>Input</span>
+                            <i class="fas fa-chevron-down ml-1 text-xs opacity-70 group-hover:rotate-180 transition-transform"></i>
+                        </button>
+                        
+                        <!-- Dropdown menu -->
+                        <div class="absolute left-0 mt-1 w-56 glass-black border border-white/10 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                            <div class="py-1">
+                                <a href="{{ url_for('index') }}" class="block px-4 py-2.5 text-sm text-white/80 hover:text-white hover:bg-white/10 transition {% if request.endpoint == 'index' %}bg-white/15 text-white border-l-2 border-white{% endif %}">
+                                    <i class="fas fa-clock mr-3 w-5"></i>
+                                    Non Member
+                                </a>
+                                <a href="{{ url_for('member') }}" class="block px-4 py-2.5 text-sm text-white/80 hover:text-white hover:bg-white/10 transition {% if request.endpoint == 'member' %}bg-white/15 text-white border-l-2 border-white{% endif %}">
+                                    <i class="fas fa-user mr-3 w-5"></i>
+                                    Member
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Menu Screenshot -->
+                    <a href="{{ url_for('screenshot') }}" class="px-3 lg:px-4 py-2 text-sm font-medium transition-all duration-200 rounded-lg nav-link
+                              {% if request.endpoint == 'screenshot' %}
+                              bg-white/15 text-white border border-white/20
+                              {% else %}
+                              text-white/70 hover:text-white hover:bg-white/10
+                              {% endif %}">
+                        <i class="fas fa-camera mr-1"></i>
+                        <span class="hidden lg:inline">Screenshot</span>
+                        <span class="lg:hidden">SS</span>
+                    </a>
+
+                    <!-- Menu Laporan (bisa ditambah nanti) -->
+                    <a href="{{ url_for('laporan')}}" class="px-3 lg:px-4 py-2 text-sm font-medium transition-all duration-200 rounded-lg text-white/70 hover:text-white hover:bg-white/10 nav-link">
+                        <i class="fas fa-chart-bar mr-1"></i>
+                        <span class="hidden lg:inline">Laporan</span>
+                        <span class="lg:hidden">Lap</span>
+                    </a>
+
+                    <div class="w-px h-6 bg-white/10 mx-1 lg:mx-2"></div>
+
+                    <!-- User menu -->
+                    <div class="relative group">
+                        <button class="flex items-center gap-2 px-2 lg:px-3 py-2 text-sm font-medium text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition">
+                            <div class="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center border border-white/20">
+                                <i class="fas fa-user text-xs"></i>
+                            </div>
+                            <span class="hidden lg:inline max-w-[100px] truncate">{{ username or 'milan' }}</span>
+                            <i class="fas fa-chevron-down text-xs opacity-70 group-hover:rotate-180 transition-transform"></i>
+                        </button>
+                        
+                        <!-- User dropdown -->
+                        <div class="absolute right-0 mt-1 w-48 glass-black border border-white/10 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                            <div class="py-1">
+                                <div class="h-px bg-white/10 my-1"></div>
+                                <a href="{{ url_for('logout') }}" class="block px-4 py-2.5 text-sm text-white/80 hover:text-white hover:bg-white/10 transition">
+                                    <i class="fas fa-sign-out-alt mr-3 w-5"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button type="button" id="mobileMenuBtn" class="p-2 text-white/70 hover:text-white rounded-lg hover:bg-white/10 transition">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile menu (slide down) -->
+        <div id="mobileMenu" class="hidden md:hidden border-t border-white/10 glass-black">
+            <div class="px-4 py-3 space-y-1 max-h-[80vh] overflow-y-auto">
+                <!-- Header mobile menu -->
+                <div class="flex items-center gap-3 px-4 py-3 border-b border-white/10 mb-2">
+                    <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/20">
+                        <i class="fas fa-user text-sm"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-medium text-white truncate">{{ session.username or 'milan' }}</p>
+                        <p class="text-xs text-white/50">Logged in</p>
+                    </div>
+                </div>
+
+                <!-- Menu Input Section -->
+                <div class="px-2">
+                    <p class="px-2 text-xs font-semibold text-white/50 uppercase tracking-wider mb-2">Input</p>
+                    <a href="{{ url_for('index') }}" class="flex items-center px-4 py-3 text-base font-medium rounded-lg transition
+                              {% if request.endpoint == 'index' %}
+                              bg-white/15 text-white border border-white/20
+                              {% else %}
+                              text-white/70 hover:text-white hover:bg-white/10
+                              {% endif %}">
+                        <i class="fas fa-clock mr-3 w-6"></i>
+                        Non Member
+                    </a>
+                    <a href="{{ url_for('member') }}" class="flex items-center px-4 py-3 text-base font-medium rounded-lg transition mt-1
+                              {% if request.endpoint == 'member' %}
+                              bg-white/15 text-white border border-white/20
+                              {% else %}
+                              text-white/70 hover:text-white hover:bg-white/10
+                              {% endif %}">
+                        <i class="fas fa-user mr-3 w-6"></i>
+                        Member
+                    </a>
+                </div>
+
+                <!-- Menu Lainnya -->
+                <div class="px-2 mt-4">
+                    <p class="px-2 text-xs font-semibold text-white/50 uppercase tracking-wider mb-2">Menu</p>
+                    <a href="{{ url_for('screenshot') }}" class="flex items-center px-4 py-3 text-base font-medium rounded-lg transition
+                              {% if request.endpoint == 'screenshot' %}
+                              bg-white/15 text-white border border-white/20
+                              {% else %}
+                              text-white/70 hover:text-white hover:bg-white/10
+                              {% endif %}">
+                        <i class="fas fa-camera mr-3 w-6"></i>
+                        Screenshot
+                    </a>
+                    <a href="{{ url_for('laporan')}}" class="flex items-center px-4 py-3 text-base font-medium rounded-lg transition mt-1 text-white/70 hover:text-white hover:bg-white/10">
+                        <i class="fas fa-chart-bar mr-3 w-6"></i>
+                        Laporan
+                    </a>
+                </div>
+
+                <!-- Settings -->
+                <div class="px-2 mt-4">
+                    <p class="px-2 text-xs font-semibold text-white/50 uppercase tracking-wider mb-2">Settings</p>
+                    <a href="{{ url_for('logout')}}" class="flex items-center px-4 py-3 text-base font-medium rounded-lg transition mt-1 text-white/70 hover:text-white hover:bg-white/10">
+                        <i class="fas fa-cog mr-3 w-6"></i>
+                        Logout
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+    {% endif %}
+
+    <!-- Main Content -->
+    <main class="min-h-[calc(100vh-4rem)] flex items-center justify-center p-4 sm:p-6 lg:p-8">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- JavaScript for mobile menu -->
+    <script>
+        // Mobile menu toggle
+        const mobileBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        if (mobileBtn && mobileMenu) {
+            mobileBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!mobileBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+
+            // Prevent closing when clicking inside mobile menu
+            mobileMenu.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(e) {
+            const dropdowns = document.querySelectorAll('.group');
+            dropdowns.forEach(dropdown => {
+                if (!dropdown.contains(e.target)) {
+                    // Close dropdown if needed
+                }
+            });
+        });
+    </script>
+
+    {% block scripts %}{% endblock %}
+</body>
+
+</html>

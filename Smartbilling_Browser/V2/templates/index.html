@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - TmBilling{% endblock %}
+
+{% block content %}
+<div class="w-full max-w-2xl">
+    <!-- Soft Black Card -->
+    <div class="monochrome-card rounded-2xl p-8">
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-8 pb-4 border-b border-white/10">
+            <div>
+                <h1 class="text-2xl font-light text-white/90">SmartBilling Web</h1>
+                <p class="text-white/40 mt-1 text-sm">Bekerja dengan mengirim perintah autohotkey</p>
+            </div>
+            <div class="flex items-center space-x-2 bg-white/5 px-4 py-2 rounded-xl border border-white/10">
+                <span class="w-2 h-2 bg-green-500/50 rounded-full"></span>
+                <span class="text-xs font-medium text-white/60"></span>
+            </div>
+        </div>
+
+        <!-- Form -->
+        <form method="post" class="space-y-6" id="mainForm">
+            <!-- PC Selection -->
+            <div>
+                <label for="pc" class="block text-sm font-medium text-white/60 mb-2">
+                    Pilih PC
+                </label>
+                <select name="pc" id="pc" class="w-full monochrome-input rounded-xl p-2">
+                    {% for pc in pc_list %}
+                    <option value="{{ pc }}" class="py-2 px-4 hover:bg-white/10 cursor-pointer border-b border-white/5">
+                        {{ pc }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Time Selection -->
+            <div>
+                <label for="waktu" class="block text-sm font-medium text-white/60 mb-2">
+                    Waktu
+                </label>
+                <select name="waktu" id="waktu" class="w-full monochrome-input rounded-xl py-3 px-4">
+                    <option value="tutup" class="text-white/40">Tutup Billing (Tidak ada Waktu)</option>
+                </select>
+            </div>
+
+            <!-- Action Selection -->
+            <div>
+                <label for="aksi" class="block text-sm font-medium text-white/60 mb-2">
+                    Aksi
+                </label>
+                <select name="aksi" id="aksi" class="w-full monochrome-input rounded-xl py-3 px-4">
+                    {% for a in aksi_list %}
+                    <option value="{{ a }}" class="py-2">{{ a }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Hidden data container -->
+            <div id="waktu-data" 
+                 data-reguler='{{ waktu_list_reguler|tojson }}'
+                 data-vip='{{ waktu_list_vip|tojson }}'
+                 data-vvip='{{ waktu_list_vvip|tojson }}'
+                 style="display: none;"></div>
+
+            <!-- Submit Button & Reset Button -->
+            <button type="reset" class="w-full monochrome-btn-white font-medium py-4 px-6 rounded-xl hover-lift">
+                Reset
+            </button>
+            <button type="submit" class="w-full monochrome-btn-white font-medium py-4 px-6 rounded-xl hover-lift">
+                Submit Perintah
+            </button>
+        </form>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="mt-6 space-y-2">
+            {% for category, message in messages %}
+            <div
+                class="p-4 rounded-xl {% if category == 'success' %}bg-white/10 border border-white/20 text-white/90{% else %}bg-white/5 border border-white/10 text-white/70{% endif %}">
+                <p class="text-sm">{{ message }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+    </div>
+</div>
+
+<script>
+    (function() {
+        const pcSelect = document.getElementById('pc');
+        const waktuSelect = document.getElementById('waktu');
+        const aksiSelect = document.getElementById('aksi');
+        const waktuData = document.getElementById('waktu-data');
+
+        // Ambil data dari attribute HTML
+        const waktuReguler = JSON.parse(waktuData.dataset.reguler || '[]');
+        const waktuVip = JSON.parse(waktuData.dataset.vip || '[]');
+        const waktuVvip = JSON.parse(waktuData.dataset.vvip || '[]');
+
+        function updateWaktuOptions() {
+            // Reset dulu
+            waktuSelect.innerHTML = '<option value="tutup" class="text-white/40">Tutup Billing (Tidak ada Waktu)</option>';
+            
+            // Ambil role dari PC yang dipilih
+            const selectedPc = pcSelect.value;
+            if (!selectedPc) return;
+            
+            // Extract role dari format "reguler-1", "vip-27", dll
+            const role = selectedPc.split('-')[0];  // "reguler", "vip", atau "vvip"
+            
+            // Pilih waktu list berdasarkan role
+            let waktuList = [];
+            if (role === 'reguler') {
+                waktuList = waktuReguler;
+            } else if (role === 'vip') {
+                waktuList = waktuVip;
+            } else if (role === 'vvip') {
+                waktuList = waktuVvip;
+            }
+            
+            // Tambahin option baru
+            waktuList.forEach(waktu => {
+                const option = document.createElement('option');
+                option.value = waktu;
+                option.textContent = waktu + ' Jam';
+                option.className = 'py-2';
+                waktuSelect.appendChild(option);
+            });
+            
+            // Trigger toggleWaktu untuk handle Tutup Billing
+            toggleWaktu();
+        }
+
+        function toggleWaktu() {
+            if (aksiSelect.value === 'Tutup Billing') {
+                waktuSelect.disabled = true;  // Disable dropdown
+                waktuSelect.value = "tutup";
+
+                // Hapus hidden input lama kalo ada
+                let oldHidden = document.getElementById('waktu-hidden');
+                if (oldHidden) oldHidden.remove();
+
+                // Buat hidden input biar value tetap terkirim
+                let hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = 'waktu';
+                hiddenInput.value = 'tutup';
+                hiddenInput.id = 'waktu-hidden';
+
+                // Tambahin ke form
+                waktuSelect.parentNode.appendChild(hiddenInput);
+
+            } else {
+                waktuSelect.disabled = false;  // Enable dropdown
+
+                // Hapus hidden input
+                let hiddenInput = document.getElementById('waktu-hidden');
+                if (hiddenInput) hiddenInput.remove();
+            }
+        }
+
+        // Event listeners
+        pcSelect.addEventListener('change', updateWaktuOptions);
+        aksiSelect.addEventListener('change', toggleWaktu);
+        
+        // Panggil saat halaman dimuat
+        updateWaktuOptions();
+        toggleWaktu();
+    })();
+</script>
+{% endblock %}
