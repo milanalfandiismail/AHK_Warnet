@@ -14,7 +14,15 @@ SetWorkingDir("G:\HoYoPlay")
 Run("run_server.bat")
 SetWorkingDir(A_ScriptDir)
 
-MsgBox "F1 = Start Game `nF2 = Exit Game `nDEL= Exit Script"
+; Bagian Click Menu Game, Agara Gambar ter reconize
+loop {
+    if WinExist("ahk_exe HYP.exe") {
+        WinActivate
+        Sleep 2000
+        Click 351, 803
+        break
+    }
+}
 
 loop {
     if WinExist("ahk_exe HYP.exe") {
