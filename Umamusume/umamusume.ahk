@@ -2,6 +2,8 @@
 #SingleInstance Force
 #Include ShinsImageScanClass.ahk
 
+Del:: ExitApp
+
 Run("steam://rungameid/3224770")
 
 SetWorkingDir(A_ScriptDir)
