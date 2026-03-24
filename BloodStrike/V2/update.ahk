@@ -9,6 +9,8 @@ ScreenHeight := A_ScreenHeight
 
 scan := ShinsImageScanClass()
 
+Del:: ExitApp
+
 SetWorkingDir("G:\bloodstrike\bloodstrike")
 Run("launcher.exe")
 SetWorkingDir(A_ScriptDir)
