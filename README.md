@@ -1,5 +1,7 @@
 # Hotkey  
+- F1 = Selalu menjadi click to play untuk beberapa game seperti (Genshin,Honkai,ZZZ, dll)
 - F2 = Selalu menjadi quit game dan quit script
+- Del = Selalu menjadi quit script (dibutuhkan ketika hotkey F2 bukan menjadi acuan quit script)
 
 
 ## Lisensi  
