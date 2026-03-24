@@ -4,6 +4,8 @@
 SetWorkingDir("G:\Crossfire PH\Crossfire PH")
 Run("CFLauncher.exe")
 
+Del:: ExitApp
+
 loop {
     if WinExist("ahk_exe crossfire.exe") {
         Run("taskkill /f /im crossfire.exe")
