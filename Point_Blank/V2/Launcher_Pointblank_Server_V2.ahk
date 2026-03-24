@@ -12,6 +12,7 @@ ScreenHeight := A_ScreenHeight
 x := 0
 y := 0
 
+Del:: ExitApp
 
 ; --- Menjalankan ZLauncher Server ---
 Run("reg import Pointblank.reg", , "Hide")
