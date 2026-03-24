@@ -5,6 +5,7 @@
 ; ==============================
 ; INIT
 ; ==============================
+Del:: ExitApp
 
 configPath := A_ScriptDir "\config.ini"
 
