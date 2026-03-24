@@ -1,6 +1,9 @@
 ﻿#NoEnv
 #SingleInstance Force
 #Persistent
+
+Del:: ExitApp
+
 SetWorkingDir %A_ScriptDir%
 SetTimer, AutoClose, 2000 ; Cek setiap 0.5 detik agar tidak berat
 
