@@ -107,3 +107,9 @@ Del:: {
         Sleep 500  ; Delay di luar if untuk mencegah CPU 100%
     }
 }
+
+F2:: {
+    ProcessClose("DeltaForceClient-Win64-Shipping.exe")
+    ProcessClose("df_garena_launcher.exe")
+    ExitApp
+}
