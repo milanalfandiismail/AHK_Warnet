@@ -10,19 +10,8 @@ Del:: ExitApp
 
 SetWorkingDir("G:\FIVEM")
 
-
-Run('cmd /c reg import "service.reg"', , "RunAs")
-Run('cmd /c reg import "env.reg"', , "RunAs")
-
-Run('cmd /c mklink /j "C:\Program Files\Rockstar Games" "G:\FIVEM\Program Files\Rockstar Games"', , "RunAs")
-Run('cmd /c mklink /j "C:\Program Files (x86)\Rockstar Games" "Program Files x86\Rockstar Games"', , "RunAs")
-Run('cmd /c mklink /j "%programdata%\Rockstar Games" "ProgramData\Rockstar Games"', , "RunAs")
-Run('cmd /c mklink /j "%appdata%\CitizenFX" "Config"', , "RunAs")
-Run('cmd /c mklink /j "%localappdata%\Rockstar Games" "localappdata\Rockstar Games" >nul 2>&1', , "RunAs")
-
 Sleep 1000
-Run("Fivem.exe")
-
+Run("launcher-server.bat") 
 
 loop {
     if WinExist("ahk_exe FiveM_GTAProcess.exe") {
