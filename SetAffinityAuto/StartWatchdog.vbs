@@ -1,0 +1,1 @@
+CreateObject("Wscript.Shell").Run "powershell.exe -WindowStyle Hidden -ExecutionPolicy Bypass -File ""C:\Scripts\AppWatchdog.ps1""", 0, False
