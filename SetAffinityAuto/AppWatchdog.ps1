@@ -1,17 +1,35 @@
-# App Affinity Watchdog (Brave + Discord)
-$AffinityMask = 30
-$LockFile = Join-Path $PSScriptRoot "app_watchdog.lock"
+# App Affinity Watchdog
+$ScriptRoot = $PSScriptRoot
+$ConfigFile = Join-Path $ScriptRoot "config.ini"
+$AppListFile = Join-Path $ScriptRoot "app.ini"
 
-# LOCKFILE CHECK
-if (Test-Path $LockFile) {
-    exit
+# Default values
+$AffinityMask = 30
+$SleepSeconds = 10
+$AppNames = @()
+
+# Baca config.ini (affinity & sleep)
+if (Test-Path $ConfigFile) {
+    $lines = Get-Content $ConfigFile
+    foreach ($line in $lines) {
+        if ($line -match "^affinity\s*=\s*(\d+)") {
+            $AffinityMask = [int]$matches[1]
+        }
+        elseif ($line -match "^sleep\s*=\s*(\d+)") {
+            $SleepSeconds = [int]$matches[1]
+        }
+    }
 }
 
-# Buat lockfile
-"ACTIVE" | Out-File -FilePath $LockFile
+# Baca app.ini (daftar aplikasi, satu per baris)
+if (Test-Path $AppListFile) {
+    $AppNames = Get-Content $AppListFile | Where-Object { $_ -notmatch "^#" -and $_ -ne "" } | ForEach-Object { $_.Trim() }
+}
 
-# Daftar aplikasi yang dipantau
-$AppNames = @("brave", "Discord")
+# Fallback kalau app.ini kosong
+if ($AppNames.Count -eq 0) {
+    $AppNames = @("brave", "Discord")
+}
 
 # Loop utama
 while ($true) {
@@ -23,11 +41,11 @@ while ($true) {
                 try {
                     $proc.ProcessorAffinity = $AffinityMask
                 } catch {
-                    # Proses mungkin mati mendadak, ignore
+                    # Ignore
                 }
             }
         }
     }
     
-    Start-Sleep -Seconds 10
+    Start-Sleep -Seconds $SleepSeconds
 }
